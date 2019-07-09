@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Modal, Alert, TouchableHighlight } from "react-native";
+import {
+    View, Text, StyleSheet, ScrollView, Image,
+    TouchableOpacity, Modal, Alert, TouchableHighlight, TextInput
+} from "react-native";
 import { sharePNG, backPNG } from "../assets/icons";
 import { ReviewCard, DetailBox } from "../Component";
+import { AirbnbRating } from 'react-native-ratings';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 
 
@@ -12,13 +16,18 @@ class DetailScreen extends Component {
         this.state = {
             detailId: '',
             title: '',
-            showMapModal: false
-
+            showMapModal: false,
+            showReviewModal: false,
+            review: "",
+            star: 0
 
         }
         this._showMapModal = this._showMapModal.bind(this);
         this.setModalVisible = this.setModalVisible.bind(this);
         this.topNav = this.topNav.bind(this);
+        this._showReviewModal = this._showReviewModal.bind(this);
+        this._addReviewModal = this._addReviewModal.bind(this);
+        this._onFinishRating = this._onFinishRating.bind(this);
     }
 
     // static navigationOptions = ({ navigation }) => {
@@ -53,11 +62,38 @@ class DetailScreen extends Component {
     }
 
 
-    setModalVisible(value) {
+    _showReviewModal = () => {
         this.setState({
-            showMapModal: value
+            showReviewModal: true
         })
     }
+
+    _onFinishRating = (value) => (
+        this.setState({
+            star: value
+        })
+    )
+
+    setModalVisible(value, whichModal) {
+        switch (whichModal) {
+            case "map":
+                this.setState({
+                    showMapModal: value
+                })
+                break;
+
+            case "review":
+                this.setState({
+                    showReviewModal: value
+                })
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
 
     topNav = () => {
         return <View style={{
@@ -89,6 +125,73 @@ class DetailScreen extends Component {
         </View>
     }
 
+    _addReviewModal = () => {
+        return <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.showReviewModal}
+        >
+
+            <ScrollView style={[styles.modalContainer, { padding: 20 }]}>
+                <TouchableHighlight
+                    style={styles.cancelButtonContanier}
+                    onPress={() => {
+                        this.setModalVisible(!this.state.showReviewModal, 'review');
+                    }}
+                >
+                    <Text style={styles.cancelButton}>X</Text>
+                </TouchableHighlight>
+                <View style={styles.modalContentContainer}>
+
+
+
+
+                    {/* user info */}
+                    <View style={{ flexDirection: "row" }}>
+                        <Image
+                            source={require('../assets/pictures/img3.jpg')}
+                            style={{ width: 40, height: 40, borderRadius: 20 }}
+                        />
+                        <Text style={styles.addReviewUsername}>Michael Jay White</Text>
+                    </View>
+
+                    {/* rating */}
+                    {/* <View
+                        style={{ backgroundColor: "green", paddingLeft: -2 }}                   > */}
+                    <AirbnbRating
+                        count={5}
+                        reviews={["Terrible", "Bad", "Good", "Very Good", "Impeccable"]}
+                        defaultRating={this.state.star}
+                        size={31}
+                        showRating={true}
+                        onFinishRating={(value) => this.setState({ star: value })}
+                    />
+                    {/* </View> */}
+
+                    {/* <View> */}
+                    <TextInput
+                        // style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                        onChangeText={(text) => this.setState({ review: text })}
+                        value={this.state.review}
+                        multiline={true}
+                        placeholder="share your experience"
+                    />
+                    {/* </View> */}
+
+                    <TouchableHighlight
+                        style={{ marginTop: 50, width: 149, height: 31, backgroundColor: "#0A27C3", borderRadius: 15, alignSelf: "center", alignContent: "center", justifyContent: "center" }}
+                        onPress={() => alert(`your review is ${this.state.star} star(s) and ${this.state.review}`)}
+                    >
+                        <Text style={{ color: "white", textAlign: "center" }}>Submit</Text>
+                    </TouchableHighlight>
+
+
+                </View>
+            </ScrollView>
+
+        </Modal>
+    }
+
 
     render() {
         return (
@@ -97,7 +200,7 @@ class DetailScreen extends Component {
 
                     {this.topNav()}
 
-                    <View style={styles.ImageViewCOntainer}>
+                    <View style={styles.imageViewContainer}>
                         <ScrollView style={{ flex: 1 }} horizontal={true}
                             contentContainerStyle={{
                                 justifyContent: 'space-around',
@@ -127,32 +230,33 @@ class DetailScreen extends Component {
                         showMap={this._showMapModal}
                     />
 
-                    
+
                     <ReviewCard />
                     <ReviewCard />
                     <ReviewCard />
 
                 </ScrollView>
 
-                <TouchableHighlight onPress={() => alert(`${this.state.title}`)}
-                    style={{ height: 50, width: 50, borderRadius: 50, bottom: 10, right: 10, backgroundColor: "#0A27C3", position: "absolute" }}
+                <TouchableHighlight onPress={() => this._showReviewModal()}
+                    style={{ height: 50, width: 50, borderRadius: 25, bottom: 10, right: 10, backgroundColor: "#0A27C3", position: "absolute" }}
                 >
                     <View>
-                        <Text style={{ fontSize: 48, lineHeight: 51, color: "#fff", textAlign: "center" }}>+</Text>
+                        <Text style={styles.floatingButton}>+</Text>
 
                     </View>
                 </TouchableHighlight>
 
+                {this._addReviewModal()}
+
                 <Modal
-                    style={styles.modal}
                     animationType="slide"
-                    transparent={false}
+                    transparent={true}
                     visible={this.state.showMapModal}
                     onRequestClose={() => {
                         Alert.alert('Modal has been closed.');
                     }}>
-                    <View style={{ marginTop: 22 }}>
-                        <View>
+                    <View style={styles.modalContainer}>
+                        <View style={{ padding: 20 }}>
                             <View style={styles.mapView}>
                                 {/* <MapView
                                     provider={PROVIDER_GOOGLE}
@@ -171,7 +275,7 @@ class DetailScreen extends Component {
 
                             <TouchableHighlight
                                 onPress={() => {
-                                    this.setModalVisible(!this.state.showMapModal);
+                                    this.setModalVisible(!this.state.showMapModal, 'map');
                                 }}
                             >
                                 <Text>Hide Modal</Text>
@@ -185,27 +289,34 @@ class DetailScreen extends Component {
     }
 }
 
+
 // require('../assets/pictures/img.jpg')
 
 const styles = StyleSheet.create({
-    container: {
+    modalContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        // backgroundColor: '#F5FCFF',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.25)'
     },
 
-    ImageViewCOntainer: {
+    imageViewContainer: {
         height: 231,
         // flex:1
     },
 
-
+    modalContentContainer: {
+        padding: 32,
+        marginVertical: 100,
+        backgroundColor: "#fff",
+        borderRadius: 15,
+        flex: 1
+    },
 
     modal: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#000',
+        backgroundColor: 'rgba(0, 0, 0, 0.25)',
         padding: 100
     },
 
@@ -217,6 +328,43 @@ const styles = StyleSheet.create({
 
     map: {
         ...StyleSheet.absoluteFillObject
+    },
+
+    addReviewUsername: {
+        fontSize: 14,
+        fontFamily: 'Ropa Sans',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        lineHeight: 15,
+        color: '#000000',
+        marginLeft: 13,
+        marginTop: 5,
+        fontWeight: 'bold'
+    },
+    floatingButton: {
+        fontSize: 48,
+        lineHeight: 51,
+        color: "#fff",
+        textAlign: "center"
+    },
+    cancelButton: {
+        fontSize: 15,
+        // lineHeight: 51,
+        color: "#000",
+        textAlign: "center"
+    },
+    cancelButtonContanier:{
+        position: "absolute",
+        right: 0,
+        top: 100,
+        backgroundColor: "rgba(0, 0, 0, 0.25)",
+        borderRadius: 15,
+        height: 30,
+        width: 30,
+        zIndex: 1,
+        flex:1,
+        justifyContent:"center",
+        alignContent:"center"
     }
 
 });
