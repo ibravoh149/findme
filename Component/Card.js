@@ -1,9 +1,10 @@
 import React from "react";
 import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
-import { bookmarkPNG, starPNG } from "../assets/icons";
+import { Rating, AirbnbRating } from 'react-native-ratings';
+import { bookmarkPNG } from "../assets/icons";
 
 
-export const Card = ({ title, address, views, id, img, onCardSelect }) => {
+export const Card = ({ title, address, views, id, img, ratingCount, onCardSelect }) => {
     return (
         <TouchableOpacity style={styles.card}
             onPress={() => onCardSelect(id, title)}
@@ -21,26 +22,16 @@ export const Card = ({ title, address, views, id, img, onCardSelect }) => {
                     <Text style={styles.rating}>Ratings</Text>
                     <View
                         style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            alignContent: 'center',
-                            alignItems: 'center'
+                            paddingLeft:-2,
                         }}>
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
+                            
+                        <AirbnbRating
+                            count={5}
+                            // reviews={["Terrible", "Bad", "Meh", "OK", "Good", "Hmm...", "Very Good", "Wow", "Amazing", "Unbelievable", "Jesus"]}
+                            defaultRating={`${ratingCount}`}
+                            size={16}
+                            showRating={false}
+                            isDisabled={true}
                         />
                     </View>
 
@@ -48,7 +39,7 @@ export const Card = ({ title, address, views, id, img, onCardSelect }) => {
                 </View>
 
 
-                <View style={{ alignSelf: 'center', flex: 1, alignItems: 'flex-start', paddingLeft: 20 }}>
+                <View style={{ alignSelf: 'center', flex: 1, alignItems: 'flex-start', paddingLeft: 15 }}>
                     <Text style={styles.address}>{address}</Text>
                 </View>
 

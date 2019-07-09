@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button } from "react-native";
-import { clubIconPNG, hotelIconPNG, restaurantIconPNG, bookmarkPNG, starPNG, phonePNG, emailPNG } from "../assets/icons";
+import { Rating, AirbnbRating } from 'react-native-ratings';
+import { starPNG, phonePNG, emailPNG } from "../assets/icons";
 
 
 
@@ -15,22 +16,14 @@ export const DetailBox = ({ data, showMap }) => {
                     <View
                         style={{ justifyContent: "flex-start", flexDirection: "row" }}
                     >
-                        <Text style={{ color: "white", fontSize: 16, top: -3, marginRight: 2 }}>4.5</Text>
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
+                        <Text style={{ color: "white", fontSize: 16, marginRight: 2 }}>4.5</Text>
+                        <AirbnbRating
+                            count={5}
+                            // reviews={["Terrible", "Bad", "Meh", "OK", "Good", "Hmm...", "Very Good", "Wow", "Amazing", "Unbelievable", "Jesus"]}
+                            defaultRating={4.5}
+                            size={16}
+                            showRating={false}
+                            isDisabled={true}
                         />
                     </View>
 
@@ -46,18 +39,22 @@ export const DetailBox = ({ data, showMap }) => {
                     <View style={{ flexDirection: "row", marginTop: 24 }}>
                         <Image
                             source={phonePNG}
-                            style={{ height: 16, width: 16, backgroundColor: "#fff" }}
+                            style={{
+                                height: 16,
+                                tintColor: "white",
+                                width: 16
+                            }}
                         />
-                        <Text style={{ marginLeft: 5, color: "white", fontSize: 12, top: -2 }}>+2348077654786</Text>
+                        <Text style={{ marginLeft: 5, color: "white", fontSize: 12, top: -3, position: 'absolute', left: 15 }}>+2348077654786</Text>
 
                     </View>
 
                     <View style={{ flexDirection: "row", marginTop: 9 }}>
                         <Image
                             source={emailPNG}
-                            style={{ height: 16, width: 16, backgroundColor: "#fff" }}
+                            style={{ height: 16, width: 16, tintColor: "white" }}
                         />
-                        <Text style={{ marginLeft: 5, color: "white", fontSize: 12, top: -2 }}>johnsnow@got.com</Text>
+                        <Text style={{ marginLeft: 5, color: "white", fontSize: 12, top: -2, position: 'absolute', left: 20 }}>johnsnow@got.com</Text>
 
                     </View>
 

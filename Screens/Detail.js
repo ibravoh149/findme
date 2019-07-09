@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Modal, Alert, TouchableHighlight } from "react-native";
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { sharePNG, backPNG } from "../assets/icons";
 import { ReviewCard, DetailBox } from "../Component";
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 
 
 class DetailScreen extends Component {
@@ -19,21 +18,22 @@ class DetailScreen extends Component {
         }
         this._showMapModal = this._showMapModal.bind(this);
         this.setModalVisible = this.setModalVisible.bind(this);
+        this.topNav = this.topNav.bind(this);
     }
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: 'Details'
-            // headerLeft: (
-            //     <TouchableOpacity style={{ paddingLeft: 20 }} >
-            //         <Image
-            //             source={menuPNG}
-            //             style={{ height: 20, width: 20 }}
-            //         />
-            //     </TouchableOpacity>
-            // ),
-        };
-    };
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //         headerTitle: 'Details'
+    //         // headerLeft: (
+    //         //     <TouchableOpacity style={{ paddingLeft: 20 }} >
+    //         //         <Image
+    //         //             source={menuPNG}
+    //         //             style={{ height: 20, width: 20 }}
+    //         //         />
+    //         //     </TouchableOpacity>
+    //         // ),
+    //     };
+    // };
 
 
     componentDidMount() {
@@ -59,11 +59,44 @@ class DetailScreen extends Component {
         })
     }
 
+    topNav = () => {
+        return <View style={{
+            height: 50,
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.25)",
+            zIndex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 15
+        }}>
+            <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+            >
+                <Image
+                    source={backPNG}
+                    style={{ height: 20, width: 20, tintColor: "#FFF" }}
+                />
+            </TouchableHighlight>
+            <TouchableHighlight>
+                <Image
+                    source={sharePNG}
+                    style={{ height: 20, width: 20, tintColor: "#FFF" }}
+                />
+            </TouchableHighlight>
+        </View>
+    }
+
 
     render() {
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView>
+
+                    {this.topNav()}
+
                     <View style={styles.ImageViewCOntainer}>
                         <ScrollView style={{ flex: 1 }} horizontal={true}
                             contentContainerStyle={{
@@ -94,16 +127,15 @@ class DetailScreen extends Component {
                         showMap={this._showMapModal}
                     />
 
+                    
                     <ReviewCard />
                     <ReviewCard />
                     <ReviewCard />
-
-
 
                 </ScrollView>
 
                 <TouchableHighlight onPress={() => alert(`${this.state.title}`)}
-                    style={{ height: 50, width: 50, borderRadius: 50, bottom: 10, left: 350, backgroundColor: "#0A27C3" }}
+                    style={{ height: 50, width: 50, borderRadius: 50, bottom: 10, right: 10, backgroundColor: "#0A27C3", position: "absolute" }}
                 >
                     <View>
                         <Text style={{ fontSize: 48, lineHeight: 51, color: "#fff", textAlign: "center" }}>+</Text>
@@ -121,7 +153,21 @@ class DetailScreen extends Component {
                     }}>
                     <View style={{ marginTop: 22 }}>
                         <View>
-                            <Text>Hello World!</Text>
+                            <View style={styles.mapView}>
+                                {/* <MapView
+                                    provider={PROVIDER_GOOGLE}
+                                    style={styles.map}
+                                    region={{
+                                        latitude: 37.78825,
+                                        longitude: -122.4324,
+                                        latitudeDelta: 0.0922,
+                                        longitudeDelta: 0.0421,
+                                    }}
+                                /> */}
+
+                                <Text>Map here</Text>
+
+                            </View>
 
                             <TouchableHighlight
                                 onPress={() => {
@@ -154,14 +200,24 @@ const styles = StyleSheet.create({
         // flex:1
     },
 
-   
-   
+
+
     modal: {
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#000',
         padding: 100
-     }
+    },
+
+    mapView: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+
+    map: {
+        ...StyleSheet.absoluteFillObject
+    }
 
 });
 

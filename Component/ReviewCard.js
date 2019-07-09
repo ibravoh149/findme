@@ -1,4 +1,5 @@
 import React from 'react'
+import {  AirbnbRating } from 'react-native-ratings';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button } from "react-native";
 import { starPNG } from "../assets/icons";
 
@@ -25,21 +26,13 @@ export const ReviewCard = () => {
                 >
                     <Text style={styles.reviewCardTitle}>Michael Jay White</Text>
                     <View style={{ flexDirection: "row" }}>
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
-                        />
-                        <Image
-                            source={starPNG}
-                            style={{ height: 16, width: 16 }}
+                        <AirbnbRating
+                            count={5}
+                            // reviews={["Terrible", "Bad", "Meh", "OK", "Good", "Hmm...", "Very Good", "Wow", "Amazing", "Unbelievable", "Jesus"]}
+                            defaultRating={4}
+                            size={16}
+                            showRating={false}
+                            isDisabled={true}
                         />
                         <Text style={styles.reviewCardTime}>one week ago</Text>
 
@@ -65,7 +58,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent: "center",
         paddingHorizontal: 10,
-        paddingVertical: 10
+        paddingVertical: 10,
     },
 
     reviewCard: {

@@ -19,10 +19,10 @@ class HomeScreen extends Component {
             ],
 
             data: [
-                { id: '1', title: "San Andress", address: "wall street, London", views: 200 },
-                { id: '2', title: "The Highwaymen", address: "victoria island, Lagos", views: 100 },
-                { id: '3', title: "The Pivot", address: "34 Palawan, Italy", views: 20 },
-                { id: '4', title: "Trench", address: "34 10 Bode Thomas hdhsjdkdkdjjhuwhewuhsh shdhud dhddhdi bhdhhd", views: 400 }
+                { id: '1', title: "San Andress", address: "wall street, London", views: 200, ratingCount:4 },
+                { id: '2', title: "The Highwaymen", address: "victoria island, Lagos", views: 100, ratingCount:5 },
+                { id: '3', title: "The Pivot", address: "34 Palawan, Italy", views: 20, ratingCount:4 },
+                { id: '4', title: "Trench", address: "34 10 Bode Thomas hdhsjdkdkdjjhuwhewuhsh shdhud dhddhdi bhdhhd", views: 400, ratingCount:1 }
             ],
 
             selected: new Map()
@@ -63,6 +63,7 @@ class HomeScreen extends Component {
             views={item.views}
             id={item.id}
             onCardSelect={this._onSelectCard}
+            ratingCount={item.ratingCount}
         />
     )
 
