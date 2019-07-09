@@ -8,15 +8,17 @@ import phonePNG from './phone-receiver.png';
 import emailPNG from './email.png';
 import sharePNG from './share.png';
 import backPNG from './left-arrow.png';
+import logoPNG from './placeholder.png';
+import lockPNG from './lock.png';
 
 
-export{
+export {
     clubIconPNG, hotelIconPNG,
-    restaurantIconPNG, 
-    bookmarkPNG, 
-    starPNG, 
-    menuPNG, 
+    restaurantIconPNG,
+    bookmarkPNG,
+    starPNG,
+    menuPNG,
     phonePNG,
-    emailPNG, 
-    sharePNG,backPNG
+    emailPNG,
+    sharePNG, backPNG, logoPNG,lockPNG
 }

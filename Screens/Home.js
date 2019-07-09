@@ -43,6 +43,13 @@ class HomeScreen extends Component {
                     />
                 </TouchableOpacity>
             ),
+            // drawerLabel: 'Home',
+            // drawerIcon: ({tintColor}) => (
+            //     <Image
+            //       source={menuPNG}
+            //       style={{ height: 20, width: 20 }}
+            //     />
+            //   ),
         };
     };
 

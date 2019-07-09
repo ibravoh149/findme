@@ -84,7 +84,9 @@ class DetailScreen extends Component {
 
             case "review":
                 this.setState({
-                    showReviewModal: value
+                    showReviewModal: value,
+                    star:0,
+                    review:""
                 })
                 break;
 
