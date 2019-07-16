@@ -1,10 +1,12 @@
 import React from "react";
-import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, Image, StyleSheet, Dimensions } from 'react-native';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { bookmarkPNG } from "../assets/icons";
 
 
 export const Card = ({ title, address, views, id, img, ratingCount, onCardSelect }) => {
+const {height, width} = Dimensions.get("window")
+
     return (
         <TouchableOpacity style={styles.card}
             onPress={() => onCardSelect(id, title)}
@@ -13,7 +15,7 @@ export const Card = ({ title, address, views, id, img, ratingCount, onCardSelect
             <View style={{ height: 187, alignItems: 'center', flexDirection: 'row' }}>
                 <Image
                     source={img}
-                    style={{ height: 187 }}
+                    style={{ height: 187}}
                 />
             </View>
 

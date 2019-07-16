@@ -10,6 +10,8 @@ import sharePNG from './share.png';
 import backPNG from './left-arrow.png';
 import logoPNG from './placeholder.png';
 import lockPNG from './lock.png';
+import settingsPNG from './settings.png';
+import lovePNG from './heart.png';
 
 
 export {
@@ -20,5 +22,6 @@ export {
     menuPNG,
     phonePNG,
     emailPNG,
-    sharePNG, backPNG, logoPNG,lockPNG
+    sharePNG, backPNG, logoPNG,lockPNG,
+    settingsPNG, lovePNG
 }

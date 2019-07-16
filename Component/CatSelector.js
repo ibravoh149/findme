@@ -10,51 +10,46 @@ import { StyleSheet, TouchableOpacity, View, Text, Image } from 'react-native';
 
 export const Selector = ({ selected, value, icon, onSelectItem, selectItem }) => {
 
-    let selectedStyle = selected ? {
-        flex: 1,
-        borderRadius: 35,
-        borderWidth: 1.5,
-        borderColor: '#0A27C3',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 60,
-        width: 70,
+    let selectedStyle = selected ? styles.selected : styles.notSelected;
 
-    } : {
-            flex: 1,
-            borderRadius: 35,
-            borderWidth: 1.5,
-            borderColor: '#D5D6DA',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 60,
-            width: 70,
-        }
+    let selectedTextStyle = selected ? styles.selectedText : styles.notSelectedText
 
     return (
         <TouchableOpacity style={styles.selectorComponent}
             onPress={() => onSelectItem(selectItem)}
         >
-            <View style={ selectedStyle }>
+            <View style={selectedStyle}>
                 <Image
                     style={{ height: 25, width: 25 }}
                     source={icon}
                 />
             </View>
-            <Text style={styles.selectorText}>{value}</Text>
+            <Text style={selectedTextStyle}>{value}</Text>
         </TouchableOpacity>
     )
 }
 
+// #615959
+
 
 const styles = StyleSheet.create({
-    selectorText: {
+    selectedText: {
+        fontFamily: 'Ropa Sans',
+        fontStyle: 'normal',
+        fontSize: 12,
+        fontWeight: 'normal',
+        lineHeight: 15,
+        color: '#000000',
+        fontWeight: "bold"
+    },
+
+    notSelectedText: {
         fontFamily: 'Ropa Sans',
         fontStyle: 'normal',
         fontSize: 10,
         fontWeight: 'normal',
         lineHeight: 15,
-        color: '#000000'
+        color: '#615959'
     },
 
     selected: {
@@ -84,14 +79,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
-
-        // marginRight: 50,
-
-        // height: 80,
-        // width: 85,
-
-
-        // backgroundColor:"blue"
 
     },
 })

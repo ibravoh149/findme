@@ -11,7 +11,7 @@ export default class SlashScreen extends Component {
 componentDidMount(){
     setTimeout(()=>{
         this.props.navigation.navigate('Auth');
-    }, 4000)
+    }, 1000)
 }
 
     render() {

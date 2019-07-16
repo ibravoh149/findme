@@ -31,7 +31,7 @@ class AuthScreen extends Component {
     }
 
     _loginButton=()=>{
-        this.props.navigation.push('Home');
+        this.props.navigation.navigate('Main');
     }
 
 

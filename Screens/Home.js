@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button, StatusBar } from "react-native";
 import { clubIconPNG, hotelIconPNG, restaurantIconPNG, bookmarkPNG, starPNG, menuPNG } from "../assets/icons";
 import { Selector, Card } from "../Component";
 import { createStackNavigator, createAppContainer } from 'react-navigation';
@@ -19,10 +19,10 @@ class HomeScreen extends Component {
             ],
 
             data: [
-                { id: '1', title: "San Andress", address: "wall street, London", views: 200, ratingCount:4 },
-                { id: '2', title: "The Highwaymen", address: "victoria island, Lagos", views: 100, ratingCount:5 },
-                { id: '3', title: "The Pivot", address: "34 Palawan, Italy", views: 20, ratingCount:4 },
-                { id: '4', title: "Trench", address: "34 10 Bode Thomas hdhsjdkdkdjjhuwhewuhsh shdhud dhddhdi bhdhhd", views: 400, ratingCount:1 }
+                { id: '1', title: "San Andress", address: "wall street, London", views: 200, ratingCount: 4 },
+                { id: '2', title: "The Highwaymen", address: "victoria island, Lagos", views: 100, ratingCount: 5 },
+                { id: '3', title: "The Pivot", address: "34 Palawan, Italy", views: 20, ratingCount: 4 },
+                { id: '4', title: "Trench", address: "34 10 Bode Thomas hdhsjdkdkdjjhuwhewuhsh shdhud dhddhdi bhdhhd", views: 400, ratingCount: 1 }
             ],
 
             selected: new Map()
@@ -32,33 +32,36 @@ class HomeScreen extends Component {
         this._displaySelector = this._displaySelector.bind(this);
     }
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: 'FindMe',
-            headerLeft: (
-                <TouchableOpacity style={{ paddingLeft: 20 }} >
-                    <Image
-                        source={menuPNG}
-                        style={{ height: 20, width: 20 }}
-                    />
-                </TouchableOpacity>
-            ),
-            // drawerLabel: 'Home',
-            // drawerIcon: ({tintColor}) => (
-            //     <Image
-            //       source={menuPNG}
-            //       style={{ height: 20, width: 20 }}
-            //     />
-            //   ),
-        };
-    };
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //         headerTitle: 'FindMe',
+    //         headerLeft: (
+    //             <TouchableOpacity style={{ paddingLeft: 20 }}
+    //                 onPress={() => this.props.navigation.openDrawer()}
+    //             >
+    //                 <Image
+    //                     source={menuPNG}
+    //                     style={{ height: 20, width: 20 }}
+    //                 />
+    //             </TouchableOpacity>
+    //         ),
+    //         // drawerLabel: 'Home',
+    //         // drawerIcon: ({tintColor}) => (
+    //         //     <Image
+    //         //       source={menuPNG}
+    //         //       style={{ height: 20, width: 20 }}
+    //         //     />
+    //         //   ),
+    //     };
+    // };
 
 
     componentDidMount() {
-        let catSelector = [...this.state.catSelector];
-        catSelector[0].selected = true;
+
         this.setState((state) => {
-            catSelector
+            let catSelector = [...this.state.catSelector];
+            catSelector[0].selected = true;
+            return { catSelector }
         })
     }
 
@@ -77,34 +80,22 @@ class HomeScreen extends Component {
     _keyExtractor = (item, index) => item.id;
 
 
-    _selected() {
-
-    }
-
+   
     _select = (id) => {
-
-        // this.setState((state) => {
-        //     // // copy the map rather than modifying state.
-        //     const selected = new Map(this.state.selected);
-        //     selected.set(id, !selected.get(id)); // toggle
-        //     return { selected };
-        // });
-
 
         this.setState((state) => {
 
             let catSelector = [...this.state.catSelector];
 
-            for (let selector of catSelector) {
-                // if (selector['id'] = id) {
-                //     selector['selected'] = true
-                // } else {
-                //     selector['selected'] = false;
-                // }
+            catSelector[catSelector.findIndex((obj) => obj.id == id)].selected = true;
 
-                selector['selected'] = false
+            catSelector.forEach((selector) => {
+                if(selector.id !== id){
+                    selector.selected=false;
+                }
+            })
 
-            }
+
             return { catSelector }
         })
 
@@ -118,7 +109,7 @@ class HomeScreen extends Component {
             return <Selector
                 key={index}
                 selectItem={selector.id}
-                selected={!!selector.selected}
+                selected={selector.selected}
                 // selected={!!this.state.selected.get(selector.id)}
                 value={selector.value}
                 icon={selector.icon}
@@ -140,6 +131,21 @@ class HomeScreen extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
+
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="#0A27C3"
+                />
+                <View style={{ padding: 15, backgroundColor: "#0A27C3", height: 50, }}>
+                    <TouchableOpacity style={{ height: 20, width: 20, tintColor: "white" }}
+                        onPress={() => this.props.navigation.openDrawer()}
+                    >
+                        <Image
+                            source={menuPNG}
+                            style={{ height: 20, width: 20, tintColor: "white" }}
+                        />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.selectCat}>
                     <Text style={styles.questionText}>What are You looking for?</Text>
                     <ScrollView
@@ -199,7 +205,7 @@ const styles = StyleSheet.create({
 
     questionText: {
         textAlign: 'center',
-        marginTop: 10,
+        marginVertical: 7,
         fontSize: 18,
         fontFamily: 'Ropa Sans',
         fontStyle: 'normal',
